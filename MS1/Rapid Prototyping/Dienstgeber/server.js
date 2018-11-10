@@ -17,32 +17,8 @@ app.get('/', function(req, res) {
     res.status(200).send('Standard-Route worked!');
 });
 
-var Rezension = require('../app/models/rezension');
-
-app.post('/rezension', function(req, res){
-  var rezension = new Rezension();
-  rezension.inhalt = req.body.inhalt;
-  rezension.buchID = req.body.buchID;
-  rezension.verlegerID = req.body.verlegerID;
-
-  rezension.save(function(err) {
-      if (err){
-        res.status(500).send(err);
-      }
-      res.status(201).send('Rezension erstellt.');
-  });
-});
-
-app.get('/rezension', function(req,res){
-    Rezension.find(function(err, rezension) {
-        if (err){
-          res.status(500).send(err);
-        }
-        else {
-          res.status(200).send(rezension);
-        }
-    });
-  });
+var literatureRoute = require('./routes/literatureRoute');
+app.use('/literature', literatureRoute);
 
 //========================== MONGODB CONNECTION ================================
 var mongoose   = require('mongoose');                                           // Mit mongoDB verbinden
@@ -51,7 +27,6 @@ mongoose.connect('mongodb+srv://vadeki:m81HjAmsYNoJS8g9@wba2-peu7d.mongodb.net/E
      res.status(500).send('Fehler bei der Verbindung zur Datenbank');
    }
 });
-
 // ========================= SERVER STARTEN ====================================
 app.listen(port, function() {
     console.log("Server is running on port " + port);
