@@ -1,6 +1,8 @@
 var express    = require('express');
 var app        = express();
 var bodyParser = require('body-parser');
+var serverURL = 'http://localhost:8080/';
+var request = require('request');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -19,6 +21,9 @@ app.get('/', function(req, res) {
 
 var literatureRoute = require('./routes/literatureRoute');
 app.use('/literature', literatureRoute);
+
+var analyticalDataRoute = require('./routes/analyticalDataRoute');
+app.use('/analyticalData', analyticalDataRoute);
 
 //========================== MONGODB CONNECTION ================================
 var mongoose   = require('mongoose');                                           // Mit mongoDB verbinden
