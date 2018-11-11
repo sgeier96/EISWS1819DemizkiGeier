@@ -57,11 +57,7 @@ var rl = readline.createInterface({
 });
 
 console.log("Which function should be executed? \n ");
-rl.question("Choose between: \n 1: Sentiment \n 2: Keywords \n 3: Write a book \n 4: Submit a review \n 5: Show all books \n", function(answer) {
-  let documents = { 'documents': [
-    { 'id': '1', 'language': 'en', 'text': 'I really enjoy the new XBox One S. It has a clean look, it has 4K/HDR resolution and it is affordable.' },
-    { 'id': '2', 'language': 'es', 'text': 'Este ha sido un dia terrible, llegué tarde al trabajo debido a un accidente automobilistico.' },
-  ]};
+rl.question("Choose between: \n 1: Sentiment \n 2: Keywords \n 3: Submit a review \n 4: Show all books \n", function(answer) {
 
   let urlLiterature = "";
 
@@ -75,10 +71,6 @@ rl.question("Choose between: \n 1: Sentiment \n 2: Keywords \n 3: Write a book \
       break;
   
     case "3":
-      writeBook();
-      break;
-  
-    case "4":
     //Review submitten
     let reviewData = {
       "publisher" : "Peter Schmustig",
@@ -91,7 +83,7 @@ rl.question("Choose between: \n 1: Sentiment \n 2: Keywords \n 3: Write a book \
       "title" : "Der Hans ist nicht alleine.",
       "autor" : "Johnny Depp",
       "genre" : "Horror",
-      "content" : "Doch er was wohl... Plötzlich, ein greller Blitz am Himmel!",
+      "content" : "Doch er war es wohl... Plötzlich, ein greller Lichtblitz am Himmel!",
       "review" : reviewData
     };
     let options = {
@@ -126,7 +118,7 @@ rl.question("Choose between: \n 1: Sentiment \n 2: Keywords \n 3: Write a book \
   analyzeForKeyPhrases(formattedReviewData);
       break;
   
-    case "5":
+    case "4":
     urlLiterature = serverURL + 'literature';
 
     request.get(urlLiterature, function(err, response, body){
