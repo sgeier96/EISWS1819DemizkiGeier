@@ -26,7 +26,7 @@ var analyticalDataRoute = require('./routes/analyticalDataRoute');
 app.use('/analyticalData', analyticalDataRoute);
 
 //========================== MONGODB CONNECTION ================================
-var mongoose   = require('mongoose');                                           // Mit mongoDB verbinden
+var mongoose   = require('mongoose'); // Mit mongoDB verbinden
 mongoose.connect('mongodb+srv://vadeki:m81HjAmsYNoJS8g9@wba2-peu7d.mongodb.net/EISWS1819?retryWrites=true', function(err, client) {
    if (err){
      res.status(500).send('Fehler bei der Verbindung zur Datenbank');
