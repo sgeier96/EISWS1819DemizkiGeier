@@ -1,0 +1,30 @@
+{
+  "name": "eisws1819demizkimueldersgeier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node ./MS1/Rapid Prototyping/Dienstgeber/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgeier96/EISWS1819DemizkiGeier.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sgeier96/EISWS1819DemizkiGeier/issues"
+  },
+  "homepage": "https://github.com/sgeier96/EISWS1819DemizkiGeier",
+  "dependencies": {
+    "chalk": "^2.3.2",
+    "express": "^4.16.3",
+    "faye": "^1.2.4",
+    "mongodb": "^3.0.10",
+    "mongoose": "^5.1.4",
+    "readline-sync": "^1.4.9",
+    "request": "^2.87.0",
+    "stdio": "^0.2.7"
+  }
+}
