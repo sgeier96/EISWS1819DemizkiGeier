@@ -25,6 +25,9 @@ app.use('/literature', literatureRoute);
 var analyticalDataRoute = require('./routes/analyticalDataRoute');
 app.use('/analyticalData', analyticalDataRoute);
 
+var orderRoute = require('./routes/orderRoute');
+app.use('/order', orderRoute);
+
 //========================== MONGODB CONNECTION ================================
 var mongoose   = require('mongoose');                                           // Mit mongoDB verbinden
 mongoose.connect('mongodb+srv://vadeki:m81HjAmsYNoJS8g9@wba2-peu7d.mongodb.net/EISWS1819?retryWrites=true', function(err, client) {
