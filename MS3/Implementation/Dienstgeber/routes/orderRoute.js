@@ -19,21 +19,20 @@ module.exports = (function() {
             if (err){
               res.status(500).send(err);
             }
-            res.status(201).send('Order erstellt.');
+            res.status(201).send('Erfolgreich erstellt');
         });
       })
-      .get(function(req,res){
-        Order.find(function(err, order) {
-            if (err){
-              res.status(500).send(err);
-            }
-            else {
-              res.status(200).send(order);
-            }
-        });
-      });
 
     orderRoute.route('/:order_id')
+
+      .get(function(req, res) {
+            Order.findById(req.params.order_id, function(err, order) {
+                if (err){
+                  res.status(500).send(err);
+                }
+                res.status(200).send(order);
+            });
+      })
 
       .delete(function(err, order) {
         Order.deleteOne({
@@ -47,6 +46,6 @@ module.exports = (function() {
                 }
               });
       });
-    
+
     return orderRoute;
 })();
