@@ -33,7 +33,7 @@ module.exports = (function() {
 
     literatureRoute.route('/:literature_id')
 
-      .put( function(req,res){
+      .put(function(req,res){
           Literature.findByIdAndUpdate(req.params.literature_id,
                       {$push:{review: req.body.review}},
                       {safe: true, upsert: true, new: true},
@@ -63,6 +63,30 @@ module.exports = (function() {
                           }
                         }
           });
+      })
+
+      .get(function(req, res) {
+            Literature.findById(req.params.literature_id, function(err, literature) {
+                if (err){
+                  res.status(500).send(err);
+                }
+                res.status(200).send(literature);
+            });
+      })
+
+      .delete(function(req, res) {
+
+            Literature.deleteOne({
+                _id: req.params.literature_id
+            }, function(err, literature) {
+                if (err){
+                  res.status(500).send(err);
+                }
+                else {
+                  res.status(200).send('Erfolgreich gelöscht');
+                }
+            });
       });
+
     return literatureRoute;
 })();
