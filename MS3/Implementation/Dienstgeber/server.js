@@ -20,16 +20,16 @@ app.get('/', function(req, res) {
 });
 
 var literatureRoute = require('./routes/literatureRoute');
-app.use('/literature', literatureRoute);
+app.use('/literatures', literatureRoute);
 
 var analyticalDataRoute = require('./routes/analyticalDataRoute');
-app.use('/analyticalData', analyticalDataRoute);
+app.use('/analyticalDatas', analyticalDataRoute);
 
 var orderRoute = require('./routes/orderRoute');
-app.use('/order', orderRoute);
+app.use('/orders', orderRoute);
 
 var cartRoute = require('./routes/cartRoute');
-app.use('/cart', cartRoute);
+app.use('/carts', cartRoute);
 
 //========================== MONGODB CONNECTION ================================
 var mongoose   = require('mongoose');                                           // Mit mongoDB verbinden
