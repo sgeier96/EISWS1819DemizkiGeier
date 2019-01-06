@@ -14,6 +14,8 @@ module.exports = (function() {
         literature.content = req.body.content;
         literature.callCount = req.body.callCount;
         literature.review = req.body.review;
+        literature.like = req.body.like;
+        literature.dislike = req.body.dislike;
 
         literature.save(function(err) {
             if (err){
@@ -50,6 +52,8 @@ module.exports = (function() {
                             literature.genre = req.body.genre;
                             literature.releaseDate = req.body.releaseDate;
                             literature.content = req.body.content;
+                            literature.like = req.body.like;                    //To-Do: Wie verfahren, wenn geliked wird?
+                            literature.dislike = req.body.dislike;
                             literature.review = req.body.review;
 
                             literature.save(function(err) {

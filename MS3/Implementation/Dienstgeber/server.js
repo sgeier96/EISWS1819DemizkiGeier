@@ -52,13 +52,17 @@ setInterval(function () {
       }
 
       while (true) {
-        if(pastLiteratureData[i] != null && literature[i] != null){
-          var magicNumber = literature[i].callCount / pastLiteratureData[i].callCount;
-          if(magicNumber >= 1.5){                                               // Erweiterung: Mögliche Grenze -> 1000 Aufrufe am Anfang
-              trends[i] = literature[i];
-              //console.log(trends);
-          }
-          i++;
+        if(pastLiteratureData[i] != null && literature[i] != null){             // To-Do: Überprüfen ob 0 vorhanden ist
+            var callIncrease = literature[i].callCount / pastLiteratureData[i].callCount;
+            var likeIncrease = literature[i].like / pastLiteratureData[i].like;
+
+            if(callIncrease >= 1.5 && pastLiteratureData[i].callCount >= 1000 || likeIncrease >= 1.5 && pastLiteratureData[i].like >= 20){
+                trends[i] = literature[i];                                    // Erweiterung: Mögliche Grenze -> 1000 Aufrufe am Anfang
+                                                                                  // To-To: Für unterschiedliche Grenzen andere Increase-Werte!
+            }
+            //console.log(trends);
+            // if (commentCount >= 1.1)
+            i++;
         }
         else {
           pastLiteratureData = literature;
@@ -67,8 +71,6 @@ setInterval(function () {
       }
   });
 }, 1000);
-
-
 
 //========================== MONGODB CONNECTION ================================
 var mongoose   = require('mongoose');                                           // Mit mongoDB verbinden
