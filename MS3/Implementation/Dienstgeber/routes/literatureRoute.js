@@ -10,7 +10,9 @@ module.exports = (function() {
         literature.title = req.body.title;
         literature.autor = req.body.autor;
         literature.genre = req.body.genre;
+        literature.releaseDate = req.body.releaseDate;
         literature.content = req.body.content;
+        literature.callCount = req.body.callCount;
         literature.review = req.body.review;
 
         literature.save(function(err) {
@@ -46,6 +48,7 @@ module.exports = (function() {
                             literature.title = req.body.title;
                             literature.autor = req.body.autor;
                             literature.genre = req.body.genre;
+                            literature.releaseDate = req.body.releaseDate;
                             literature.content = req.body.content;
                             literature.review = req.body.review;
 
@@ -70,7 +73,16 @@ module.exports = (function() {
                 if (err){
                   res.status(500).send(err);
                 }
-                res.status(200).send(literature);
+                literature.callCount = literature.callCount + 1;                // Aufrufe zählen
+
+                literature.save(function(err) {
+                  if (err){
+                    res.status(500).send(err);
+                  }
+                  else {
+                    res.status(200).send(literature);
+                  }
+                });
             });
       })
 

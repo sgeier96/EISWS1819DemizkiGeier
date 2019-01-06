@@ -2,13 +2,15 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var literatureSchema = new Schema({
-    title: String,
-    autor: String,
-    genre: String,
-    content: String,
+    title: {type: String, required: true},
+    autor: {type: String, required: true},
+    genre: {type: String, required: true},
+    releaseDate: {type: String, required: true},
+    content: {type: String, required: true},
+    callCount: {type: Number, required: true},                                  // Aufrufzahlen : Für die Trendermittlung
     review: [{
-      publisher: String,
-      content: String
+      publisher: {type: String, required: true},
+      content: {type: String, required: true}
     }]
 });
 
