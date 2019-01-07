@@ -5,7 +5,7 @@ var serverURL = 'http://localhost:8080/';
 var request = require('request');
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 
 var port = process.env.PORT || 8080;
 var router = express.Router();
@@ -18,6 +18,9 @@ app.use(function(req, res, next) {
 app.get('/', function(req, res) {
     res.status(200).send('Standard-Route worked!');
 });
+
+var userRoute = require('./routes/userRoute');
+app.use('/user', userRoute);
 
 var literatureRoute = require('./routes/literatureRoute');
 app.use('/literature', literatureRoute);
