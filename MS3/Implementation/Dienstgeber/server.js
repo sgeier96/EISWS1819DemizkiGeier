@@ -5,7 +5,7 @@ var serverURL = 'http://localhost:8080/';
 var request = require('request');
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 
 var pastLiteratureData = [];                                                    // Abfrage nach Zugriffszeitraum
 var trends = [];
@@ -22,6 +22,9 @@ app.use(function(req, res, next) {
 app.get('/', function(req, res) {
     res.status(200).send('Standard-Route worked!');
 });
+
+var userRoute = require('./routes/userRoute');
+app.use('/user', userRoute);
 
 var literatureRoute = require('./routes/literatureRoute');
 app.use('/literatures', literatureRoute);
@@ -73,7 +76,7 @@ setInterval(function () {
 }, 1000);
 
 //========================== MONGODB CONNECTION ================================
-var mongoose   = require('mongoose');                                           // Mit mongoDB verbinden
+var mongoose   = require('mongoose'); // Mit mongoDB verbinden
 mongoose.connect('mongodb+srv://vadeki:m81HjAmsYNoJS8g9@wba2-peu7d.mongodb.net/EISWS1819?retryWrites=true', function(err, client) {
    if (err){
      res.status(500).send('Fehler bei der Verbindung zur Datenbank');

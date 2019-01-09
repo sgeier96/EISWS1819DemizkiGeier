@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node ./MS1/Rapid Prototyping/Dienstgeber/server.js",
+    "start": "node ./Dienstgeber/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,8 +23,12 @@
     "faye": "^1.2.4",
     "mongodb": "^3.0.10",
     "mongoose": "^5.1.4",
+    "nodemon": "^1.18.9",
     "readline-sync": "^1.4.9",
     "request": "^2.87.0",
     "stdio": "^0.2.7"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
   }
 }
