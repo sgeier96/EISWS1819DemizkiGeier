@@ -15,16 +15,13 @@ module.exports = (function () {
             if (req.body.birthday != null) {
                 user.birthday = req.body.birthday;
             }
-            /*
+
             if (req.body.attendedCourses != null) {
                 user.attendedCourses = req.body.attendedCourses;
             }
             if (req.body.favouriteGenres != null) {
                 user.favouriteGenres = req.body.favouriteGenres;
             }
-            if (req.body.specifiedInterests != null) {
-                user.specifiedInterests = req.body.favouriteGenres;
-            }*/
 
             user.save(function (err) {
                 if (err) {
@@ -41,19 +38,39 @@ module.exports = (function () {
                     res.status(200).send(user);
                 }
             });
-        })
-        .delete(function (req, res) {
-            User.findOneAndDelete({email:req.body.email},
-                function(err, deletedUser){
-                if(err){
-                    res.status(500).send(err);
-                } else if(deletedUser == null){
-                    res.status(500).send('User ' + req.body.email + ' couldnt be found in order to delete it.')
-                } else {
-                    res.status(200).send('User ' + deletedUser.email + ' deleted.');
-                } 
-            });
         });
+
+    userRoute.route('/:userId')
+
+        .put(function(req, res){
+            User.findByIdAndUpdate(req.params.userId,
+                req.body,
+                {new: true},
+                function(err, updatedUser){
+                    if (err) {
+                        res.status(500).send(err);
+                    } else {
+                        console.log(updatedUser.email);
+                        res.status(200).send(updatedUser);
+                    }
+                }
+            );
+        })
+            
+        .delete(function (req, res) {
+            User.findByIdAndDelete(req.params.userId,
+                function(err, deletedUser){
+                    if(err){
+                        res.status(500).send(err);  
+                    } else if(deletedUser == null){ 
+                        res.status(500).send('User ' + req.body.email + ' couldnt be found in order to delete it.')
+                    } else {
+                        res.status(200).send('User ' + deletedUser.email + ' deleted.');
+                    } 
+                }
+            );
+        });
+            
 
     return userRoute;
 })();
