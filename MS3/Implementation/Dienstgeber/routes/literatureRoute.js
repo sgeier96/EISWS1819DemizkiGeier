@@ -8,20 +8,22 @@ module.exports = (function() {
       .post(function(req, res){
         var literature = new Literature();
         literature.title = req.body.title;
-        literature.autor = req.body.autor;
+        literature.author = req.body.author;
         literature.genre = req.body.genre;
         literature.releaseDate = req.body.releaseDate;
         literature.content = req.body.content;
         literature.callCount = req.body.callCount;
-        literature.review = req.body.review;
+        literature.reviews = req.body.reviews;
         literature.like = req.body.like;
         literature.dislike = req.body.dislike;
 
         literature.save(function(err) {
             if (err){
               res.status(500).send(err);
+            } else {
+              console.log(JSON.stringify(literature));
+              res.status(201).send('Literature erstellt.');
             }
-            res.status(201).send('Literature erstellt.');
         });
       })
       .get(function(req,res){
@@ -39,7 +41,7 @@ module.exports = (function() {
 
       .put(function(req,res){
           Literature.findByIdAndUpdate(req.params.literature_id,
-                      {$push:{review: req.body.review}},
+                      {$push:{reviews: req.body.reviews}},
                       {safe: true, upsert: true, new: true},
                       function(err, literature) {
                         if (err){
@@ -48,13 +50,13 @@ module.exports = (function() {
                         else {
                           if(literature != null){
                             literature.title = req.body.title;
-                            literature.autor = req.body.autor;
+                            literature.author = req.body.author;
                             literature.genre = req.body.genre;
                             literature.releaseDate = req.body.releaseDate;
                             literature.content = req.body.content;
                             literature.like = req.body.like;                    //To-Do: Wie verfahren, wenn geliked wird?
                             literature.dislike = req.body.dislike;
-                            literature.review = req.body.review;
+                            literature.reviews = req.body.reviews;
 
                             literature.save(function(err) {
                               if (err){

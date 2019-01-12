@@ -3,12 +3,12 @@ var Schema       = mongoose.Schema;
 
 var literatureSchema = new Schema({
     title: {type: String, required: true},
-    autor: {type: String, required: true},
+    author: {type: String, required: true},
     genre: {type: String, required: true},
     releaseDate: {type: String, required: true},
     content: {type: String, required: true},
-    callCount: {type: Number, required: true},                                  // Aufrufzahlen : Für die Trendermittlung
-    review: [{
+    callCount: {type: Number, default: 0},                                  // Aufrufzahlen : Für die Trendermittlung
+    reviews: [{
       publisher: {type: String, required: true},
       content: {type: String, required: true}
     }],
