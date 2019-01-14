@@ -6,7 +6,7 @@ module.exports = (function() {
     literatureRoute.route('/')
 
       .post(function(req, res){
-        var literature = new Literature();
+        let literature = new Literature();
         literature.title = req.body.title;
         literature.author = req.body.author;
         literature.genre = req.body.genre;
@@ -17,12 +17,11 @@ module.exports = (function() {
         literature.like = req.body.like;
         literature.dislike = req.body.dislike;
 
-        literature.save(function(err) {
+        literature.save(function(err, literature) {
             if (err){
               res.status(500).send(err);
             } else {
-              console.log(JSON.stringify(literature));
-              res.status(201).send('Literature erstellt.');
+              res.status(201).send(literature);
             }
         });
       })
@@ -38,42 +37,34 @@ module.exports = (function() {
       });
 
     literatureRoute.route('/:literature_id')
-
       .put(function(req,res){
-          Literature.findByIdAndUpdate(req.params.literature_id,
-                      {$push:{reviews: req.body.reviews}},
-                      {safe: true, upsert: true, new: true},
-                      function(err, literature) {
-                        if (err){
-                          res.status(500).send(err);
-                        }
-                        else {
-                          if(literature != null){
-                            literature.title = req.body.title;
-                            literature.author = req.body.author;
-                            literature.genre = req.body.genre;
-                            literature.releaseDate = req.body.releaseDate;
-                            literature.content = req.body.content;
-                            literature.like = req.body.like;                    //To-Do: Wie verfahren, wenn geliked wird?
-                            literature.dislike = req.body.dislike;
-                            literature.reviews = req.body.reviews;
+      
+          Literature.findById(req.params.literature_id, function(err, foundLiterature){
+            if (err) {
+              res.status(500).send(err);
+            } else {
+              if(foundLiterature){
+                if(req.body.title) foundLiterature.title = req.body.title;
+                if(req.body.author) foundLiterature.author = req.body.author;
+                if(req.body.genre) foundLiterature.genre = req.body.genre;
+                if(req.body.releaseDate) foundLiterature.releaseDate = req.body.releaseDate;
+                if(req.body.content) foundLiterature.content = req.body.content;
+                (req.body.reviews) ? foundLiterature.reviews.push(req.body.reviews) : foundLiterature.reviews = req.body.reviews;
+                (req.body.like) ? foundLiterature.like++ : foundLiterature.like = 1;
+                (req.body.dislike) ? foundLiterature.dislike++ : foundLiterature.dislike = 1;
 
-                            literature.save(function(err) {
-                              if (err){
-                                res.status(500).send(err);
-                              }
-                              else {
-                                res.status(200).send(literature);
-                              }
-                            });
-                          }
-                          else {
-                            res.status(500).send(err);
-                          }
-                        }
-          });
-      })
-
+                foundLiterature.save(function(err, savedLiterature){
+                  if (err) {
+                    res.status(500).send(err);
+                  } else {
+                    res.status(200).send(foundLiterature);
+                  }
+                }); // END OF foundLiterature.save()
+              } // END OF if(foundLiterature)
+            } // END OF else
+          }); // END OF Literature.findById()
+      }) // END OF .put()
+      
       .get(function(req, res) {
             Literature.findById(req.params.literature_id, function(err, literature) {
                 if (err){

@@ -3,20 +3,27 @@ var app = express();
 var bodyParser = require('body-parser');
 var request = require('request');
 
-const urlParams = new URLSearchParams(window.location.search);
-
 var serverURL = 'http://localhost:8080/';
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-createLiterature(
+
+//CreateLiterature with postReview after that
+/*createLiterature(
   "Alice im Wunderland", 
   "Lewis Carroll", 
   "Kinderbuch", 
   "01.01.1865", 
   "Es war einmal vor langer langer Zeit...", 
-  12
-  );
+  12, function(response){
+    console.log('ID of created literature: ' + JSON.stringify(response._id));
+    //postReview('Nutzer123', 'Wahnsinns Buch. Wortwörtlich.', response._id)
+  }
+);*/
+
+//postReview('Nutzer234', 'Coolio.', '5c3cc92baee5aa08fc9e7d6c');
+  
+
 
 
 //TODO Data given in in the Interface has yet to be passed to this function
@@ -24,11 +31,11 @@ createLiterature(
 * @param passedTitle The title of the literature to be created
 * @param passedAuthor The author's name of the literature to be created
 * @param passedGenre The genre of the literature to be created
-* @param passedReleaseDate The release date of the literature to be created
+* @param passedReleaseDate The release date of the literatur e to be created
 * @param passedContent The main content of the literature to be created
 * @param passedCallCount The count of how often the literature has already been called (not required)
 */
-function createLiterature(passedTitle, passedAuthor, passedGenre, passedReleaseDate, passedContent, passedCallCount){
+function createLiterature(passedTitle, passedAuthor, passedGenre, passedReleaseDate, passedContent, passedCallCount, callback){
   let urlLiterature = serverURL + 'literatures';  
   let literatureData = {
     "title" : JSON.stringify(passedTitle),
@@ -37,6 +44,11 @@ function createLiterature(passedTitle, passedAuthor, passedGenre, passedReleaseD
     "releaseDate" : JSON.stringify(passedReleaseDate),
     "content" : JSON.stringify(passedContent)
     }
+
+    if(passedCallCount != null){
+      literatureData.callCount = passedCallCount;
+    }
+
   let options = {
       uri: urlLiterature,
       body: JSON.stringify(literatureData),
@@ -45,199 +57,49 @@ function createLiterature(passedTitle, passedAuthor, passedGenre, passedReleaseD
         'Content-Type' : 'application/json'
       }
     }
-
+  
   request(options, function (err, res) {
+    var createdLiterature = 'Not yet defined.';
     if (err) {
       console.log(err);
     } else {
-      console.log('POST-Request send: \n ' + JSON.stringify(res, null, 2));
-    }
-  });
-}
-
-
-
-//Microsoft Azure stuff
-var https = require ('https');
-
-var azureAccessKey = 'ee9078b90ddc40b6955e60a881888d8f';
-var azureUri = 'westeurope.api.cognitive.microsoft.com';
-
-//-------------------PLAYGROUND------------------------------------//
-
-var readline = require('readline');
-
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-console.log("Which function should be executed? \n ");
-rl.question("Choose between: \n 1: Sentiment \n 2: Keywords \n 3: Submit a review \n 4: Show all books \n", function(answer) {
-
-  let urlLiterature = "";
-
-  switch (answer) {
-    case "1":
-    analyzeForSentiment(documents);
-      break;
-  
-    case "2":
-    analyzeForKeyPhrases(documents);
-      break;
-  
-    case "3":
-    //Review submitten
-    let reviewData = {
-      "publisher" : "Peter Schmustig",
-      "content" : "Ich fand die Stelle mit dem Meteoriten am besten. Heiß!"
-    };
-
-    urlLiterature = serverURL + 'literature/5be7062333aa071975bc344c';
-
-    let literatureData = {
-      "title" : "Der Hans ist nicht alleine.",
-      "autor" : "Johnny Depp",
-      "genre" : "Horror",
-      "content" : "Doch er war es wohl... Plötzlich, ein greller Lichtblitz am Himmel!",
-      "review" : reviewData
-    };
-    let options = {
-      uri: urlLiterature,
-      method: 'PUT',
-      headers:{
-        'Content-Type': 'application/json'
-      },
-      json : literatureData
-    };
-
-  request.put(options, function(err, response, body){
-    if(err){
-      console.log("Fehler: GET Request");
-    }
-    else {
-      console.log(body); 
-    }
-  });
-
-  var formattedReviewData = {
-    "documents": [
-        {
-            "language": "de",
-            "id": "1",
-            "text": JSON.stringify(reviewData.content)
-        }
-    ]
-}
-
-  analyzeForSentiment(formattedReviewData);
-  analyzeForKeyPhrases(formattedReviewData);
-      break;
-  
-    case "4":
-    urlLiterature = serverURL + 'literature';
-
-    request.get(urlLiterature, function(err, response, body){
-      if(err){
-        console.log("Fehler: GET Request");
-      }
-      else {
-        console.log(JSON.parse(body)); 
-      }
+      createdLiterature = JSON.parse(res.body);      
+    } 
+      return callback(createdLiterature);
     });
-      break;
-  
-    default:
-    console.log("Input unknown.");
-      break;
+}
+
+//TODO Save the current Literature that is being written a review of
+//TODO Get or pass the ID of the current literature that is being written a review of
+function postReview(publisher, revContent, literatureId){
+  let urlLiterature = serverURL + 'literatures/' + literatureId;
+  let newReview = { 
+    "reviews" : {
+      "publisher" : publisher,
+      "revContent" : revContent
+    }
   }
-  rl.close();
-});
+let options={
+    uri: urlLiterature,
+    body: JSON.stringify(newReview),
+    method: 'PUT',
+    headers: {
+      'Content-Type' : 'application/json'
+    }
+  }
 
-function analyzeForSentiment(documents){
-
-'use strict';
-
-let path = '/text/analytics/v2.0/sentiment';
-
-let response_handler = function (response) {
-    let body = '';
-    response.on ('data', function (d) {
-        body += d;
-    });
-    response.on ('end', function () {
-        let body_ = JSON.parse (body);
-        let body__ = JSON.stringify (body_, null, '  ');
-        console.log (body__);
-    });
-    response.on ('error', function (e) {
-        console.log ('Error: ' + e.message);
-    });
-};
-
-let get_sentiments = function (documents) {
-    let body = JSON.stringify (documents);
-
-    let request_params = {
-        method : 'POST',
-        hostname : azureUri,
-        path : path,
-        headers : {
-            'Ocp-Apim-Subscription-Key' : azureAccessKey,
-        }
-    };
-
-    let req = https.request (request_params, response_handler);
-    req.write (body);
-    req.end ();
+  request.put(options, function(err, res){
+    if (err) {
+      console.log(err);
+      
+    } else {
+      console.log('PUT-Request send. New Literature: \n ' + JSON.stringify(res, null, 2));
+    }
+  })
 }
 
 
 
-get_sentiments (documents);
-}
-
-function analyzeForKeyPhrases(documents) {
-  'use strict';
-
-let path = '/text/analytics/v2.0/keyPhrases';
-
-let response_handler = function (response) {
-    let body = '';
-    response.on ('data', function (d) {
-        body += d;
-    });
-    response.on ('end', function () {
-        let body_ = JSON.parse (body);
-        let body__ = JSON.stringify (body_, null, '  ');
-        console.log (body__);
-    });
-    response.on ('error', function (e) {
-        console.log ('Error: ' + e.message);
-    });
-};
-
-let get_key_phrases = function (documents) {
-    let body = JSON.stringify (documents);
-
-    let request_params = {
-        method : 'POST',
-        hostname : azureUri,
-        path : path,
-        headers : {
-            'Ocp-Apim-Subscription-Key' : azureAccessKey,
-        }
-    };
-
-    let req = https.request (request_params, response_handler);
-    req.write (body);
-    req.end ();
-}
-
-get_key_phrases (documents);
-}
-
-//--------------------- END OF PLAYGROUND -------------------------//
 
 
 app.listen(3000, function(){
