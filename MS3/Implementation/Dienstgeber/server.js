@@ -56,15 +56,22 @@ setInterval(function () {
 
       while (true) {
         if(pastLiteratureData[i] != null && literature[i] != null){             // To-Do: Überprüfen ob 0 vorhanden ist
-            var callIncrease = literature[i].callCount / pastLiteratureData[i].callCount;
-            var likeIncrease = literature[i].like / pastLiteratureData[i].like;
 
-            if(callIncrease >= 1.5 && pastLiteratureData[i].callCount >= 1000 || likeIncrease >= 1.5 && pastLiteratureData[i].like >= 20){
-                trends[i] = literature[i];                                    // Erweiterung: Mögliche Grenze -> 1000 Aufrufe am Anfang
-                                                                                  // To-To: Für unterschiedliche Grenzen andere Increase-Werte!
+            var callIncrease = literature[i].callCount / pastLiteratureData[i].callCount;
+            var trendsCallBorder = (0.00025 * -Math.sqrt(pastLiteratureData[i].callCount)+ 0.3) + 1;
+
+            var likeIncrease = literature[i].like / pastLiteratureData[i].like;
+            var trendsLikeBorder = (0.00025 * -Math.sqrt(pastLiteratureData[i].callCount)+ 0.3) + 1; // To-Do: Später anpassen!!
+
+            //1.292094305849579 bei 1000
+            if(trendsCallBorder <= callIncrease){
+              trends[i] = literature[i];
+              //console.log("Erfolgreich in den Trends - trendsCallBorder(Grenze): " + trendsCallBorder + " Steigerung " + callIncrease);
             }
-            //console.log(trends);
-            // if (commentCount >= 1.1)
+            if(trendsLikeBorder <= likeIncrease){
+              trends[i] = literature[i];
+              //console.log("Erfolgreich in den Trends - trendsCallBorder(Grenze): " + trendsCallBorder + " Steigerung " + callIncrease);
+            }
             i++;
         }
         else {
