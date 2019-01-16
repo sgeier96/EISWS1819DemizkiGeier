@@ -107,7 +107,7 @@ function sendReview(publisher, revContent, literatureId) {
   });
 
   /*--------------------------------------------------------------
-  --- Google Cloud Natural Language API - Sentiment per Entity ---
+  -- Google Cloud Natural Language API - Sentiment and Entities --
   --------------------------------------------------------------*/
   try {
     sentimentAnalysis(revContent).catch(console.error).then(function (sentimentResult) {
@@ -116,14 +116,6 @@ function sendReview(publisher, revContent, literatureId) {
         //console.log('SENTIMENT RESULT IS THE FOLLOWING: ' + typeof sentimentResult + '\n' + sentimentResult);
        let keyPhrases = [];
 
-       /*
-       let newReview = {
-        "reviews": {
-          "publisher": publisher,
-          "revContent": revContent
-        }
-       }*/
-        
         entitiesResult.forEach(entity => {
           keyPhrases.push({
             phrase: entity.name,
