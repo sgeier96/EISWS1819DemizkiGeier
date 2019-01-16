@@ -55,7 +55,7 @@ setInterval(function () {
       }
 
       while (true) {
-        if(pastLiteratureData[i] != null && literature[i] != null){             // To-Do: Überprüfen ob 0 vorhanden ist
+        if(pastLiteratureData[i] && literature[i]){             // To-Do: Überprüfen ob 0 vorhanden ist
             var callIncrease = literature[i].callCount / pastLiteratureData[i].callCount;
             var likeIncrease = literature[i].like / pastLiteratureData[i].like;
 
