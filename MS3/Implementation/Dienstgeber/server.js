@@ -55,12 +55,7 @@ setInterval(function () {
       }
 
       while (true) {
-<<<<<<< HEAD
-        if(pastLiteratureData[i] != null && literature[i] != null){             // To-Do: Überprüfen ob 0 vorhanden ist
-
-=======
-        if(pastLiteratureData[i] && literature[i]){             // To-Do: Überprüfen ob 0 vorhanden ist
->>>>>>> feat/reviewingBooks
+        if(pastLiteratureData[i] && literature[i]){
             var callIncrease = literature[i].callCount / pastLiteratureData[i].callCount;
             var trendsCallBorder = (0.00025 * -Math.sqrt(pastLiteratureData[i].callCount)+ 0.3) + 1;
 
