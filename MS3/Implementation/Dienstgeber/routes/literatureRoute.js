@@ -16,6 +16,8 @@ module.exports = (function() {
         literature.reviews = req.body.reviews;
         literature.like = req.body.like;
         literature.dislike = req.body.dislike;
+        if (req.body.advices) literature.advices = req.body.advices;
+        if (req.body.status) literature.status = req.body.status;
 
         literature.save(function(err, literature) {
             if (err){
@@ -48,16 +50,20 @@ module.exports = (function() {
                 if(req.body.author) foundLiterature.author = req.body.author;
                 if(req.body.genre) foundLiterature.genre = req.body.genre;
                 if(req.body.releaseDate) foundLiterature.releaseDate = req.body.releaseDate;
-                if(req.body.content) foundLiterature.content = req.body.content;
-                (req.body.reviews) ? foundLiterature.reviews.push(req.body.reviews) : foundLiterature.reviews = req.body.reviews;
-                (req.body.like) ? foundLiterature.like++ : foundLiterature.like = 1;
-                (req.body.dislike) ? foundLiterature.dislike++ : foundLiterature.dislike = 1;
-
+                if(req.body.content) foundLiterature.content = req.body.content;                
+                if(foundLiterature.reviews == undefined && req.body.reviews != undefined) foundLiterature.reviews = req.body.reviews;
+                  else if(foundLiterature.reviews != undefined && req.body.reviews != undefined) foundLiterature.reviews.push(req.body.reviews);
+                if(foundLiterature.advices == undefined && req.body.advices != undefined) foundLiterature.advices = req.body.advices;
+                  else if(foundLiterature.advices != undefined && req.body.advices != undefined) foundLiterature.advices.push(req.body.advices);
+                (req.body.like != undefined) ? foundLiterature.like++ : foundLiterature.like = 1;
+                (req.body.dislike != undefined) ? foundLiterature.dislike++ : foundLiterature.dislike = 1;
+                (req.body.status != undefined) ? foundLiterature.satus = req.body.status : foundLiterature.status = 'WIP';
+                
                 foundLiterature.save(function(err, savedLiterature){
                   if (err) {
                     res.status(500).send(err);
                   } else {
-                    res.status(200).send(foundLiterature);
+                    res.status(200).send(savedLiterature);
                   }
                 }); // END OF foundLiterature.save()
               } // END OF if(foundLiterature)

@@ -12,8 +12,13 @@ var literatureSchema = new Schema({
     publisher: String,
     revContent: String
   }],
+  advices: [{
+    publisher: {type: String},
+    adviceContent: {type: String}
+  }],
   like: {type: Number},
-  dislike: {type: Number}
+  dislike: {type: Number},
+  status: {type: String}
 }); 
 
 

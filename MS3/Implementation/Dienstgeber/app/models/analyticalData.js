@@ -2,7 +2,7 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var analyticalDataSchema = new Schema({
-  revContent: String,    
+  text: String,    
   genre: String,
   sentiment: {
     score: String,

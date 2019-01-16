@@ -13,7 +13,7 @@ module.exports = (function () {
         if (err) {
           res.status(500).send(err);
         } else {
-          analyticalData.revContent = req.body.revContent;
+          analyticalData.text = req.body.text;
           (req.body.genre) ? analyticalData.genre = req.body.genre : analyticalData.genre = foundLiterature.genre;
           analyticalData.overallSentiment = req.body.overallSentiment;
           analyticalData.keyPhrases = req.body.keyPhrases;
