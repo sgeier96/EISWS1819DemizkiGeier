@@ -1,0 +1,52 @@
+* {
+  font-family: "Roboto Light";
+}
+
+h1 {
+  margin-bottom: 100px;
+}
+
+/*Ganzer Inhalt*/
+body {
+  /*Inhalt*/
+  width: 686px;
+  height: 350px;
+
+  /*Innenabstand*/
+  padding-top: 100px;
+  padding-bottom: 325px;
+  padding-left: 100px;
+  padding-right: 100px;
+
+  /*Rahmen*/
+  border: 0.1px solid black;
+
+  /*Außenabstand*/
+  margin-top: 75px;
+  margin-bottom: 75px;
+  margin-left: 517px;
+  margin-right: 517px;
+  box-shadow: 0px 20px 24px rgba(0, 0, 0, 0.5);
+}
+
+button {
+  margin-top: 50px;
+  background: #FFA007;
+  color: #F7F8FA;
+  border-color: #707070;
+  width: 686px;
+  height: 50px;
+
+}
+
+input {
+  width: 680px;
+  height: 50px;
+}
+
+/*Für das Hovern über den Registrieren Link*/
+a[Konto erstellen] {
+  text-decoration: none;
+  color: grey;
+  font-weight: bold;
+}
