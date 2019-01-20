@@ -1,7 +1,7 @@
 var express    = require('express');
 var app        = express();
 var bodyParser = require('body-parser');
-var serverURL = 'http://localhost:8080/';
+var serverURL = 'https://eisws1819demizkigeier.herokuapp.com/';
 var request = require('request');
 
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -1,7 +1,7 @@
 //var request = require('request');                                             //Zum testen notwendig gewesen
 //_____________________________ START LOG IN ___________________________________
 function login(){
-  var userURL = 'http://localhost:8080/user';
+  var userURL = 'https://eisws1819demizkigeier.herokuapp.com/user';
   var email  = document.getElementById('email');                                //Der Sicherheitsaspekt wird nicht berücksichtigt!
   var password  = document.getElementById('password');
 
@@ -28,7 +28,7 @@ function login(){
 
 //_____________________________ START TRENDS ___________________________________
 function loadTrends(){
-  var trendURL = 'http://localhost:8080/trends';
+  var trendURL = 'https://eisws1819demizkigeier.herokuapp.com/trends';
 
   var xmlhttp = new XMLHttpRequest();
 
@@ -55,7 +55,7 @@ function loadBookData(){
   var param = new URLSearchParams(url.search);
   var bookID = url.searchParams.get("bookID");
 
-  var literaturURL = 'http://localhost:8080/literatures/' + bookID;
+  var literaturURL = 'https://eisws1819demizkigeier.herokuapp.com/literatures/' + bookID;
 
   var xmlhttp = new XMLHttpRequest();
 
@@ -119,6 +119,7 @@ function createReview() {
  */
 
 function createLiterature(passedTitle, passedAuthor, passedGenre, passedReleaseDate, passedContent, passedCallCount, callback) {
+  let serverURL = 'https://eisws1819demizkigeier.herokuapp.com/';
   let urlLiterature = serverURL + 'literatures';
   let literatureData = {
     "title": JSON.stringify(passedTitle),
@@ -159,7 +160,7 @@ function sendReview() {
   let url = new URL(window.location);
   let param = new URLSearchParams(url.search);
   let bookID = url.searchParams.get("bookID");
-  let literaturURL = 'http://localhost:8080/literatures/' + bookID;
+  let literaturURL = 'https://eisws1819demizkigeier.herokuapp.com/literatures/' + bookID;
   let revContent = document.getElementById("reviewContent").value;
 
   let newReview = {
@@ -170,13 +171,14 @@ function sendReview() {
   }
   var http = require("http");                                                   //To do: PUT request clientseitig geht nicht.
   var options = {
-    host: "http://localhost:8080",
+    host: "https://eisws1819demizkigeier.herokuapp.com",
     path: "/literatures/" + bookID,
     method: "PUT"
   };
 }
 
 function oldsendReview(){
+  let serverURL = 'https://eisws1819demizkigeier.herokuapp.com/';
   let urlLiterature = serverURL + 'literatures/' + literatureId;
   let newReview = {
     "reviews": {
