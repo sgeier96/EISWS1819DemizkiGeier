@@ -35,7 +35,7 @@ module.exports = (function () {
                 if (err) {
                     res.status(500).send(err);
                 } else {
-                    res.status(200).send(user);
+                    res.status(200).json(user);
                 }
             });
         });
@@ -56,21 +56,21 @@ module.exports = (function () {
                 }
             );
         })
-            
+
         .delete(function (req, res) {
             User.findByIdAndDelete(req.params.userId,
                 function(err, deletedUser){
                     if(err){
-                        res.status(500).send(err);  
-                    } else if(deletedUser == null){ 
+                        res.status(500).send(err);
+                    } else if(deletedUser == null){
                         res.status(500).send('User ' + req.body.email + ' couldnt be found in order to delete it.')
                     } else {
                         res.status(200).send('User ' + deletedUser.email + ' deleted.');
-                    } 
+                    }
                 }
             );
         });
-            
+
 
     return userRoute;
 })();

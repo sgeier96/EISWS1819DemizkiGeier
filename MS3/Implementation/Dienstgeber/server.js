@@ -5,16 +5,46 @@ var serverURL = 'http://localhost:8080/';
 var request = require('request');
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 
 var pastLiteratureData = [];                                                    // Abfrage nach Zugriffszeitraum
-var trends = [];
+
+var trends = [                                                                  // Dummy Trenddaten
+  {
+    "_id":"5c3cc92baee5aa08fc9e7d6c",
+    "callCount":12,
+    "title":"Alice im Wunderland",
+    "author":"Lewis Carroll",
+    "genre":"Kinderbuch",
+    "releaseDate":"01.01.1865",
+    "content":"Es war einmal vor langer langer Zeit...",
+    "__v":180,
+    "dislike":1,
+    "like":1,
+    "status":"WIP"
+  },
+  {
+    "_id":"1234",
+    "callCount":1,
+    "title":"Baumgarten",
+    "author":"Ted Neuss",
+    "genre":"Testbuch",
+    "releaseDate":"01.01.1999",
+    "content":"Super Text...",
+    "__v":180,
+    "dislike":10,
+    "like":1,
+    "status":"WIP"
+  }
+];
 var empty = false;
 
 var port = process.env.PORT || 8080;
 var router = express.Router();
 
 app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log('A request has come in!');
     next();
 });

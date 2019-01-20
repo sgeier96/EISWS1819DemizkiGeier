@@ -1,42 +1,59 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var request = require('request');
-/**
- * BEGINNING OF GOOGLE AUTHENTICATION
- */
+//var request = require('request');
 
-/**
- * END OF GOOGLE AUTHENTICATION
- */
+//_____________________________ START LOG IN ___________________________________//
+function login(){
+  var userURL = 'http://localhost:8080/user';
+  var email  = document.getElementById('email');                                //Der Sicherheitsaspekt wird nicht berücksichtigt!
+  var password  = document.getElementById('password');
 
-var serverURL = 'http://localhost:8080/';
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-app.use(bodyParser.json());
+  var xmlhttp = new XMLHttpRequest();
 
+  xmlhttp.onreadystatechange = function(){
+    if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+      var userArray = JSON.parse(xmlhttp.responseText);
 
-//CreateLiterature with sendReview after that
-/*createLiterature(
-  "Alice im Wunderland", 
-  "Lewis Carroll", 
-  "Kinderbuch", 
-  "01.01.1865", 
-  "Es war einmal vor langer langer Zeit...", 
-  12, function(response){
-    console.log('ID of created literature: ' + JSON.stringify(response._id));
-    //sendReview('Nutzer123', 'Wahnsinns Buch. Wortwörtlich.', response._id)
+      for (var i = 0; i < userArray.length; i++){
+          if (userArray[i].email == email.value && userArray[i].password == password.value){
+            alert("Login erfolgreich!");
+            window.location = "./homepage.html";
+          }
+      }
+      alert("Die Email oder das Passwort sind nicht kor­rekt!");
+      window.location = "./login.html";
+    }
   }
-);*/
+  xmlhttp.open("GET", userURL, false);                                          //Synchron
+  xmlhttp.send();
+}
+//_______________________________ END LOG IN ___________________________________//
 
-sendReview('NutzerSentiment', '5Also ich finde die Literatur war wirklich sehr gut, besonders der Teil mit dem Motorrad hat mir sehr gut gefallen!', '5c3cc92baee5aa08fc9e7d6c');
+//_____________________________ START TRENDS ___________________________________//
+window.onload = function (){
+  var trendURL = 'http://localhost:8080/trends';
 
+  var xmlhttp = new XMLHttpRequest();
 
+  xmlhttp.onreadystatechange = function(){
+    if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+      var trendsArray = JSON.parse(xmlhttp.responseText);
+      var trendHtml = '<table border = "0">';
 
+      for (var i = 0; i < trendsArray.length; i++) {
+        trendHtml += '<tr><td><img src="../images/Buchcover02.png" alt="Buchcover"></td></tr> <tr><td>' + '<a href = "homepage.html">' + trendsArray[i].title  + '</td></tr>';
+      }
+      trendHtml += '</table>';
+      document.getElementById("trendlist").innerHTML = trendHtml;
+    }
+  }
+  xmlhttp.open("GET", trendURL, true);                                          // Asynchron
+  xmlhttp.send();
+}
+//_______________________________ END TRENDS ___________________________________//
+
+//sendReview('NutzerSentiment', '5Also ich finde die Literatur war wirklich sehr gut, besonders der Teil mit dem Motorrad hat mir sehr gut gefallen!', '5c3cc92baee5aa08fc9e7d6c');
 
 //TODO Data given in in the Interface has yet to be passed to this function
-/* 
+/*
  * @param passedTitle The title of the literature to be created
  * @param passedAuthor The author's name of the literature to be created
  * @param passedGenre The genre of the literature to be created
@@ -44,6 +61,7 @@ sendReview('NutzerSentiment', '5Also ich finde die Literatur war wirklich sehr g
  * @param passedContent The main content of the literature to be created
  * @param passedCallCount The count of how often the literature has already been called (not required)
  */
+
 function createLiterature(passedTitle, passedAuthor, passedGenre, passedReleaseDate, passedContent, passedCallCount, callback) {
   let urlLiterature = serverURL + 'literatures';
   let literatureData = {
@@ -80,6 +98,7 @@ function createLiterature(passedTitle, passedAuthor, passedGenre, passedReleaseD
 
 //TODO Save the current Literature that is being written a review of
 //TODO Get or pass the ID of the current literature that is being written a review of
+
 function sendReview(publisher, revContent, literatureId) {
   let urlLiterature = serverURL + 'literatures/' + literatureId;
   let newReview = {
@@ -134,7 +153,7 @@ function sendReview(publisher, revContent, literatureId) {
             "magnitude": sentimentResult.magnitude
           },
           "sourceType": "review"
-          //literatureHref is being written and entered in the respective xyzRoute.js after 
+          //literatureHref is being written and entered in the respective xyzRoute.js after
           //the prior (for genre retrievement) identification of the literature
         }
 
@@ -184,17 +203,8 @@ function sendReview(publisher, revContent, literatureId) {
       document: document
     });
     const sentiment = result.documentSentiment;
-
-    /*
-    console.log(`Text: ${textToAnalyze}`);
-    console.log(`Sentiment score: ${sentiment.score}`);
-    console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
-    */
-
-    //console.log('SENTIMENT IS THE FOLLOWING: ' + typeof sentiment + '\n' + JSON.stringify(sentiment));
-    
     let sentimentResult = JSON.stringify(sentiment);
-   
+
     return sentimentResult;
   }
 
@@ -220,26 +230,11 @@ function sendReview(publisher, revContent, literatureId) {
     });
 
     const entities = result.entities;
-
-    /*
-    console.log('Entities:');
-    entities.forEach(entity => {
-      console.log(entity.name);
-      console.log(` - Type: ${entity.type}, Salience: ${entity.salience}`);
-      if (entity.metadata && entity.metadata.wikipedia_url) {
-        console.log(` - Wikipedia URL: ${entity.metadata.wikipedia_url}$`);
-      }
-    });
-    */
-    
-    //console.log('ENTITIES with type of (' + typeof entities[0] + '): \n' + JSON.stringify(entities, null, 2));
-    //console.log('NAME OF FIRST ENTITY: ' + entities[0].name);
-    
-
     return entitiesResult = entities;
   }
 }
-
+/*
 app.listen(3000, function () {
   console.log("Der Dienstnutzer ist nun auf Port 3000 verfügbar.");
 });
+*/
