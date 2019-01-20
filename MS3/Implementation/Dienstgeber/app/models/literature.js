@@ -7,14 +7,15 @@ var literatureSchema = new Schema({
   genre: {type: String },
   releaseDate: {type: String },
   content: {type: String },
-  callCount: {type: Number, default: 0},                                  // Aufrufzahlen : Für die Trendermittlung
+  price: {type: Number},
+  callCount: {type: Number, default: 0},                                        // Aufrufzahlen : Für die Trendermittlung
   reviews: [{
     publisher: String,
     revContent: String
   }],
   like: {type: Number},
   dislike: {type: Number}
-}); 
+});
 
 
 module.exports = mongoose.model('Literature', literatureSchema);

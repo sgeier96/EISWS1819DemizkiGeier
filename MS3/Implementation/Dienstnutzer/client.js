@@ -1,6 +1,5 @@
-//var request = require('request');
-
-//_____________________________ START LOG IN ___________________________________//
+//var request = require('request');                                             //Zum testen notwendig gewesen
+//_____________________________ START LOG IN ___________________________________
 function login(){
   var userURL = 'http://localhost:8080/user';
   var email  = document.getElementById('email');                                //Der Sicherheitsaspekt wird nicht berücksichtigt!
@@ -25,10 +24,10 @@ function login(){
   xmlhttp.open("GET", userURL, false);                                          //Synchron
   xmlhttp.send();
 }
-//_______________________________ END LOG IN ___________________________________//
+//_______________________________ END LOG IN ___________________________________
 
-//_____________________________ START TRENDS ___________________________________//
-window.onload = function (){
+//_____________________________ START TRENDS ___________________________________
+function loadTrends(){
   var trendURL = 'http://localhost:8080/trends';
 
   var xmlhttp = new XMLHttpRequest();
@@ -39,7 +38,7 @@ window.onload = function (){
       var trendHtml = '<table border = "0">';
 
       for (var i = 0; i < trendsArray.length; i++) {
-        trendHtml += '<tr><td><img src="../images/Buchcover02.png" alt="Buchcover"></td></tr> <tr><td>' + '<a href = "homepage.html">' + trendsArray[i].title  + '</td></tr>';
+        trendHtml += '<tr><td><img src="../images/Buchcover02.png" alt="Buchcover"></td></tr> <tr><td>' + '<a href = "booksite.html?bookID='+ trendsArray[i]._id + '">' + trendsArray[i].title  + '</td></tr>';
       }
       trendHtml += '</table>';
       document.getElementById("trendlist").innerHTML = trendHtml;
@@ -48,7 +47,64 @@ window.onload = function (){
   xmlhttp.open("GET", trendURL, true);                                          // Asynchron
   xmlhttp.send();
 }
-//_______________________________ END TRENDS ___________________________________//
+//_______________________________ END TRENDS ___________________________________
+
+//___________________________ START loadBookData _______________________________
+function loadBookData(){
+  var url = new URL(window.location);
+  var param = new URLSearchParams(url.search);
+  var bookID = url.searchParams.get("bookID");
+
+  var literaturURL = 'http://localhost:8080/literatures/' + bookID;
+
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function(){
+    if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+      var book = JSON.parse(xmlhttp.responseText);
+
+      document.getElementById("bookTitle").innerHTML = book.title;
+      document.getElementById("author").innerHTML = book.author;
+      document.getElementById("genre").innerHTML = book.genre;
+      document.getElementById("descriptionText").innerHTML = book.content;
+      document.getElementById("bookPrice").innerHTML = book.price;
+
+      document.getElementById("dialogboxTitle").innerHTML = book.title;
+      document.getElementById("dialogboxAuthor").innerHTML = book.author;
+      document.getElementById("dialogboxGenre").innerHTML = book.genre;
+    }
+  }
+  xmlhttp.open("GET", literaturURL, true);                                      // Asynchron
+  xmlhttp.send();
+}
+//____________________________ END loadBookData ________________________________
+
+//_________________________ START Review dialogbox _____________________________//Modal entnommen aus https://www.w3schools.com
+function createReview() {
+    // Get the modal
+  var modal = document.getElementById('dialogbox');
+
+  // Get the button that opens the modal
+  var btn = document.getElementById("bookReview");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  modal.style.display = "block";
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+}
+//____________________________ END loadBookData ________________________________
 
 //sendReview('NutzerSentiment', '5Also ich finde die Literatur war wirklich sehr gut, besonders der Teil mit dem Motorrad hat mir sehr gut gefallen!', '5c3cc92baee5aa08fc9e7d6c');
 
@@ -99,7 +155,28 @@ function createLiterature(passedTitle, passedAuthor, passedGenre, passedReleaseD
 //TODO Save the current Literature that is being written a review of
 //TODO Get or pass the ID of the current literature that is being written a review of
 
-function sendReview(publisher, revContent, literatureId) {
+function sendReview() {
+  let url = new URL(window.location);
+  let param = new URLSearchParams(url.search);
+  let bookID = url.searchParams.get("bookID");
+  let literaturURL = 'http://localhost:8080/literatures/' + bookID;
+  let revContent = document.getElementById("reviewContent").value;
+
+  let newReview = {
+    "reviews": [{
+      "publisher": "testUser",                                                  //To do: Richtigen User automatisch eintragen.
+      "revContent": revContent
+    }]
+  }
+  var http = require("http");                                                   //To do: PUT request clientseitig geht nicht.
+  var options = {
+    host: "http://localhost:8080",
+    path: "/literatures/" + bookID,
+    method: "PUT"
+  };
+}
+
+function oldsendReview(){
   let urlLiterature = serverURL + 'literatures/' + literatureId;
   let newReview = {
     "reviews": {
@@ -107,8 +184,9 @@ function sendReview(publisher, revContent, literatureId) {
       "revContent": revContent
     }
   }
+
   let options = {
-    uri: urlLiterature,
+    uri: literaturURL,
     body: JSON.stringify(newReview),
     method: 'PUT',
     headers: {
@@ -128,6 +206,7 @@ function sendReview(publisher, revContent, literatureId) {
   /*--------------------------------------------------------------
   -- Google Cloud Natural Language API - Sentiment and Entities --
   --------------------------------------------------------------*/
+
   try {
     sentimentAnalysis(revContent).catch(console.error).then(function (sentimentResult) {
       entitiesAnalysis(revContent).catch(console.error).then(function (entitiesResult) {
@@ -233,7 +312,8 @@ function sendReview(publisher, revContent, literatureId) {
     return entitiesResult = entities;
   }
 }
-/*
+
+/*                                                                              // Zum Testen
 app.listen(3000, function () {
   console.log("Der Dienstnutzer ist nun auf Port 3000 verfügbar.");
 });

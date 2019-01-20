@@ -1,0 +1,248 @@
+* {
+  font-family: "Roboto Light";
+}
+
+header {
+  background-color: rgba(22, 99, 199, 0.8);
+  font-size: 16px;
+
+  width: 1920px;
+  height: 50px;
+
+  position: relative;
+  left: -8px;
+  bottom: 10px;
+
+  font-weight: bold;
+}
+
+header a {
+  position: relative;
+  left: 60px;
+  bottom: 5px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 1);
+}
+
+nav {
+  display: inline;
+  position: relative;
+  left: 320px;
+}
+
+* nav {
+  margin: 50px;
+}
+
+nav a {
+  padding: 15px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 1);
+}
+
+body {
+  height: 1080px;
+  width: 1920px;
+}
+
+input {
+  height: 20px;
+  width: 886px;
+  position: relative;
+  left: 350px;
+  bottom: 5px;
+}
+
+#logoPicture {
+  position: relative;
+  left: 50px;
+  top: 10px;
+}
+
+main {
+  width: 1840px;
+  padding: 25px;
+}
+
+#bookEdit {
+  width: 416.75px;
+  height: 50px;
+
+  position: relative;
+  left: -445px;
+  top: 25px;
+
+  border: 2px solid rgb(22, 99, 199);
+  background: white;
+  color: rgb(22, 99, 199);
+
+  font-size: 20px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+#bookReview {
+  width: 416.75px;
+  height: 50px;
+
+  position: relative;
+  left: -865px;
+  top: 90px;
+
+  border: 2px solid rgb(22, 99, 199);
+  background: white;
+  color: rgb(22, 99, 199);
+
+  font-size: 20px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+midbox {
+  font-size: 24px;
+  height: 500px;
+  width: 866px;
+
+  position: absolute;
+  left: 525px;
+  top: 85px;
+}
+
+#bookTitle {
+  width: 892px;
+  position: relative;
+  right: 3px;
+  font-size: 48px;
+}
+
+#author {
+  width: 892px;
+  position: relative;
+  top: 10px;
+  font-size: 24px;
+}
+
+#genre {
+  width: 892px;
+  position: relative;
+  top: 50px;
+  font-size: 24px;
+}
+#descriptionText {
+  width: 892px;
+  height: 710px;
+  position: relative;
+  top: 100px;
+  font-size: 16px;
+}
+
+rightBox {
+  width: 377px;
+  height: 930px;
+
+  position: absolute;
+  left: 1425px;
+  top: 200;
+
+  padding: 25px;
+  background: rgba(22, 99, 199, 0.1);
+  border: 1px solid rgb(22, 99, 199);
+}
+
+#bookPrice {
+  width: 200px;
+  font-size: 48px;
+}
+
+rightBox button {
+  position: absolute;
+  top: 900px;
+
+  height: 50px;
+  width: 377px;
+  color: white;
+  font-weight: bold;
+  background: rgb(255, 160, 7);
+}
+
+/* The Modal (background) */                                                    /*Modal entnommen aus https://www.w3schools.com*/
+.modal {
+ display: none;
+ position: fixed;
+ z-index: 1;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ overflow: auto;
+ background-color: rgb(0,0,0);
+ background-color: rgba(0,0,0,0.4);
+}
+
+/* Modal Content/Box */
+.modal-content {
+ background-color: #fefefe;
+ margin: 15% auto;
+ padding: 20px;
+ border: 1px solid #888;
+ width: 45%;
+}
+
+.close {
+ color: #aaa;
+ float: right;
+ font-size: 28px;
+ font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+ color: black;
+ text-decoration: none;
+ cursor: pointer;
+}
+
+#dialogboxTitle {
+  position: relative;
+  bottom: 160px;
+  left: 120px;
+  font-size: 24px;
+}
+
+#dialogboxAuthor {
+  position: relative;
+  bottom: 160px;
+  left: 120px;
+  font-size: 24px;
+}
+
+#dialogboxGenre {
+  position: relative;
+  bottom: 160px;
+  left: 120px;
+  font-size: 24px;
+}
+
+#reviewTitle {
+  width: 99%;
+  position: relative;
+  left: 0px;
+}
+
+#reviewContent {
+  width: 99%;
+  height: 200px;
+  position: relative;
+  left: 0px;
+}
+
+#btnSendReview {
+  position: relative;
+  top: 7px;
+  left: 470px;
+
+  height: 50px;
+  width: 377px;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  background: rgb(255, 160, 7);
+}

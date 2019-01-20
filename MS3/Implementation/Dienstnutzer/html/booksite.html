@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/booksite.css">
+    <script src="../client.js"></script>
+    <title>Autorenplattform</title>
+  </head>
+  <body>
+    <script>
+      window.onload = loadBookData();
+    </script>
+    <header>
+      <img id="logoPicture" src="../images/Pursuit Knowledge.png" alt="Logo">
+      <a href="homepage.html">Autorenplattform</a>
+      <input type="text" name="searchbar" placeholder="Suche">
+      <nav>
+        <a href="index.html">Mein Konto</a>
+        <a href="index.html">Meine Bibliothek</a>
+        <a href="index.html">Warenkorb</a>
+      </nav>
+    </header>
+    <main>
+      <leftBox>
+        <img id="bookPicture" src="../images/Buchcover.png" alt="Buchcover">
+        <button type="button" name="Edit" id="bookEdit" onclick="location.href='index.html'">Buch editieren</button>
+        <button type="button" name="Edit" id="bookReview" onclick="createReview()">Rezension verfassen</button>
+      </leftBox>
+      <midbox>
+        <div id="bookTitle"></div>
+        <div id="author"></div>
+        <div id="genre"></div>
+        <div id="descriptionText"></div>
+        <div id="dialogbox" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <label>Rezension schreiben zu:</label><br><br>
+            <img id="bookPicture" src="../images/Buchcover.png" alt="Buchcover" width="100">
+            <div id="dialogboxTitle"></div>
+            <div id="dialogboxAuthor"></div>
+            <div id="dialogboxGenre"></div>
+            <p>Titel hinzufügen:</p>
+            <input id="reviewTitle" type="text" name="reviewTitle" placeholder="Was ist ihre zentrale Meinung?">
+            <p>Schreiben Sie Ihre Renzension zu dem Werk:</p>
+            <input id="reviewContent" type="text" name="reviewContent" placeholder="Was hat Ihnen an diesem Werk gefallen und/oder missfallen?">
+            <button type="button" name="send" id="btnSendReview" onclick="sendReview()">Absenden</button>
+          </div>
+        </div>
+      </midbox>
+      <rightBox>
+        <div id="bookPrice"></div>
+        <div id="contentInfo">Informationen zur ausgewählten Variante:<br><br>Auf Lager<br>Voraussichtliches Lieferdatum: den 24. Juni 2019<br><br>223 Seiten<br></div>
+        <button type="button" name="cart" id="cart" onclick="location.href='index.html'">In den Warenkorb</button>
+      </rightBox>
+    </main>
+  </body>
+</html>

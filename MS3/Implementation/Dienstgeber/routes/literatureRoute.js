@@ -12,6 +12,7 @@ module.exports = (function() {
         literature.genre = req.body.genre;
         literature.releaseDate = req.body.releaseDate;
         literature.content = req.body.content;
+        literature.price = req.body.price;
         literature.callCount = req.body.callCount;
         literature.reviews = req.body.reviews;
         literature.like = req.body.like;
@@ -38,7 +39,8 @@ module.exports = (function() {
 
     literatureRoute.route('/:literature_id')
       .put(function(req,res){
-      
+        console.log("Gefunden"+ req.body.reviews);
+
           Literature.findById(req.params.literature_id, function(err, foundLiterature){
             if (err) {
               res.status(500).send(err);
@@ -49,9 +51,11 @@ module.exports = (function() {
                 if(req.body.genre) foundLiterature.genre = req.body.genre;
                 if(req.body.releaseDate) foundLiterature.releaseDate = req.body.releaseDate;
                 if(req.body.content) foundLiterature.content = req.body.content;
+                if(req.body.price) foundLiterature.price = req.body.price;
                 (req.body.reviews) ? foundLiterature.reviews.push(req.body.reviews) : foundLiterature.reviews = req.body.reviews;
                 (req.body.like) ? foundLiterature.like++ : foundLiterature.like = 1;
                 (req.body.dislike) ? foundLiterature.dislike++ : foundLiterature.dislike = 1;
+
 
                 foundLiterature.save(function(err, savedLiterature){
                   if (err) {
@@ -64,7 +68,7 @@ module.exports = (function() {
             } // END OF else
           }); // END OF Literature.findById()
       }) // END OF .put()
-      
+
       .get(function(req, res) {
             Literature.findById(req.params.literature_id, function(err, literature) {
                 if (err){
