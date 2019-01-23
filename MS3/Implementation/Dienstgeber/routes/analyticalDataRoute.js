@@ -19,7 +19,7 @@ module.exports = (function () {
           analyticalData.keyPhrases = req.body.keyPhrases;
           analyticalData.sourceType = req.body.sourceType;
           analyticalData.literatureHref = req.get('host') + '/literatures/' + req.body.literatureId;
-          
+
           analyticalData.save(function (err, analyticalData) {
             if (err) {
               res.status(500).send(err);
@@ -39,6 +39,20 @@ module.exports = (function () {
         }
       });
     });
+
+  analyticalDataRoute.route('/:analyticalData_id')
+
+      .get(function(req, res) {
+          AnalyticalData.findById(req.params.analyticalData_id, function(err, analyticalData) {
+              if (err){
+                res.status(500).send(err);
+              }
+              else {
+                res.status(200).send(analyticalData);
+              }
+          });
+      });
+
 
   return analyticalDataRoute;
 })();
