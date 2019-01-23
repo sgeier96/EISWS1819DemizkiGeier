@@ -41,10 +41,10 @@
             <div id="dialogboxAuthor"></div>
             <div id="dialogboxGenre"></div>
             <p>Titel hinzufügen:</p>
-            <input id="reviewTitle" type="text" name="reviewTitle" placeholder="Was ist ihre zentrale Meinung?">
+            <input id="reviewTitle" type="text" name="reviewTitle" placeholder="Was ist ihre zentrale Meinung?" onchange="fillBox()">
             <p>Schreiben Sie Ihre Renzension zu dem Werk:</p>
-            <input id="reviewContent" type="text" name="reviewContent" placeholder="Was hat Ihnen an diesem Werk gefallen und/oder missfallen?">
-            <button type="button" name="send" id="btnSendReview" onclick="sendReview()">Absenden</button>
+            <textarea id="reviewContent" name="text" cols="35" rows="4" placeholder="Was hat Ihnen an diesem Werk gefallen und/oder missfallen?"></textarea>
+            <button type="button" name="send" id="btnSendReview" onclick="fakeReview()">Absenden</button>
           </div>
         </div>
       </midbox>

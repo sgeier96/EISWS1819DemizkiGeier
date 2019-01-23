@@ -18,7 +18,7 @@ function login(){
           }
       }
       alert("Die Email oder das Passwort sind nicht kor­rekt!");
-      window.location = "./login.html";
+      //window.location = "./login.html";
     }
   }
   xmlhttp.open("GET", userURL, false);                                          //Synchron
@@ -105,6 +105,32 @@ function createReview() {
   }
 }
 //____________________________ END loadBookData ________________________________
+
+//_________________________ START fill dialogbox _______________________________
+function fillBox() {
+    document.getElementById('reviewContent').value = "Also ich finde die Literatur war wirklich sehr gut, besonders der Teil mit dem Motorrad hat mir sehr gut gefallen!";
+}
+//____________________________ END fill dialogbox ______________________________
+
+//____________________________ START fake REVIEW: ______________________________
+function fakeReview() {
+  var analyticalDataURL = 'https://eisws1819demizkigeier.herokuapp.com/analyticalData/5c3f5efe28d76d225c2d0618';
+  var modal = document.getElementById('dialogbox');
+  var xmlhttp = new XMLHttpRequest();
+
+  modal.style.display = "none";
+
+  xmlhttp.onreadystatechange = function(){
+    if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+      var analyticalData = JSON.parse(xmlhttp.responseText);
+      alert(JSON.stringify(analyticalData,undefined,2));
+    }
+  }
+  xmlhttp.open("GET", analyticalDataURL, true);                                 // Asynchron
+  xmlhttp.send();
+}
+//____________________________ END  fake REVIEW: _______________________________
+
 
 //sendReview('NutzerSentiment', '5Also ich finde die Literatur war wirklich sehr gut, besonders der Teil mit dem Motorrad hat mir sehr gut gefallen!', '5c3cc92baee5aa08fc9e7d6c');
 
